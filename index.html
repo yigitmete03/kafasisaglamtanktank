@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tank Arena Elite</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <section id="menu" class="screen active">
+      <div class="menu-bg"></div>
+      <div class="menu-glow one"></div>
+      <div class="menu-glow two"></div>
+
+      <div class="main-menu-layout">
+        <div class="hero-card glass">
+          <div class="badge">ELITE BROWSER TANK GAME</div>
+
+          <h1>TANK ARENA<br><span>ELITE</span></h1>
+
+          <p class="lead">
+            Tankını seç, arenaya gir, düşman dalgalarını temizle, bossları yok et
+            ve her seviyede savaş gücünü artır. Tek başına veya iki kişi aynı klavyeden
+            bilgisayara karşı savaş.
+          </p>
+
+          <div class="menu-buttons">
+            <button id="playBtn" class="btn primary">Oyuna Başla</button>
+            <button id="howBtn" class="btn secondary">Nasıl Oynanır?</button>
+          </div>
+
+          <div class="control-row">
+            <div><b>1P</b><span>Tek oyuncu modu</span></div>
+            <div><b>2P</b><span>İki kişi co-op</span></div>
+            <div><b>5. Dalga</b><span>Boss savaşı</span></div>
+            <div><b>5 Zorluk</b><span>Yapay zeka ayarı</span></div>
+          </div>
+        </div>
+
+        <div class="menu-side glass">
+          <div class="side-title">
+            <span>ARENA HAZIR</span>
+            <h2>Savaş Planı</h2>
+          </div>
+
+          <div class="side-tank-preview">
+            <div class="preview-tank">
+              <div class="preview-body"></div>
+              <div class="preview-turret"></div>
+              <div class="preview-barrel"></div>
+            </div>
+          </div>
+
+          <div class="side-list">
+            <div>
+              <b>Oyun Modu</b>
+              <span>Solo veya Co-op</span>
+            </div>
+            <div>
+              <b>Tank Seçimi</b>
+              <span>Her oyuncu kendi tankını seçer</span>
+            </div>
+            <div>
+              <b>Zorluk</b>
+              <span>Yapay zeka seviyesini belirler</span>
+            </div>
+            <div>
+              <b>Boss</b>
+              <span>5, 10, 15. dalgalarda gelir</span>
+            </div>
+          </div>
+
+          <div class="leaderboard-panel">
+            <h3>
+              Skor Tablosu
+              <button id="clearLeaderboardBtn" class="clear-board-btn">Temizle</button>
+            </h3>
+            <div id="leaderboardList" class="leaderboard-list">
+              <div class="leaderboard-empty">Henüz skor yok. İlk rekoru sen kır.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mode" class="screen">
+      <div class="mode-screen-wrap">
+
+        <div class="mode-header glass">
+          <div>
+            <div class="badge">OYUN MODU</div>
+            <h2>Kaç oyuncu oynayacak?</h2>
+            <p>Tek başına savaşabilir veya yanındaki kişiyle birlikte co-op oynayabilirsin.</p>
+          </div>
+
+          <button id="modeBackBtn" class="btn secondary small">Ana Menü</button>
+        </div>
+
+        <div class="mode-grid">
+
+          <div id="onePlayerBtn" class="mode-card single-mode">
+            <div class="mode-card-bg"></div>
+
+            <div class="mode-top">
+              <div class="mode-icon">1P</div>
+              <div class="mode-tag">SOLO</div>
+            </div>
+
+            <h3>Tek Oyuncu</h3>
+
+            <p>
+              Bilgisayara karşı tek başına mücadele et. Daha kontrollü,
+              daha taktiksel ve kişisel skor odaklı oyun modu.
+            </p>
+
+            <div class="mode-features">
+              <div><b>Kontrol</b><span>WASD</span></div>
+              <div><b>Ateş</b><span>Space</span></div>
+              <div><b>Stil</b><span>Solo</span></div>
+            </div>
+
+            <button class="mode-select-btn">Tek Oyuncu Başlat</button>
+          </div>
+
+          <div id="twoPlayerBtn" class="mode-card coop-mode">
+            <div class="mode-card-bg"></div>
+
+            <div class="mode-top">
+              <div class="mode-icon">2P</div>
+              <div class="mode-tag">CO-OP</div>
+            </div>
+
+            <h3>İki Oyuncu</h3>
+
+            <p>
+              Aynı klavyeden iki kişi birlikte oynayın. Düşmanlara karşı
+              takım halinde savaşın, birbirinizi hayatta tutun.
+            </p>
+
+            <div class="mode-features">
+              <div><b>1P</b><span>WASD + Space</span></div>
+              <div><b>2P</b><span>Oklar + Shift</span></div>
+              <div><b>Stil</b><span>Takım</span></div>
+            </div>
+
+            <button class="mode-select-btn">İki Oyuncu Başlat</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="select" class="screen">
+      <div class="select-wrap">
+
+        <header class="topbar glass">
+          <div>
+            <div class="badge">TANK SEÇİMİ</div>
+            <h2 id="selectTitle">Tankını seç</h2>
+            <p id="selectSubText" class="select-sub">Savaş tarzına uygun tankı seç.</p>
+          </div>
+
+          <button id="backModeBtn" class="btn secondary small">Geri</button>
+        </header>
+
+        <div id="tankGrid" class="tank-grid"></div>
+      </div>
+    </section>
+
+    <section id="difficulty" class="screen">
+      <div class="difficulty-wrap">
+
+        <div class="difficulty-header glass">
+          <div>
+            <div class="badge">ZORLUK SEÇİMİ</div>
+            <h2>Yapay zeka seviyesini seç</h2>
+            <p>
+              Düşman tanklarının hızı, hasarı, nişan kalitesi ve ateş sıklığı seçtiğin
+              zorluğa göre değişir.
+            </p>
+          </div>
+
+          <button id="difficultyBackBtn" class="btn secondary small">Tank Seçimine Dön</button>
+        </div>
+
+        <div class="difficulty-grid">
+
+          <div class="difficulty-card very-easy" data-difficulty="veryEasy">
+            <div class="difficulty-rank">01</div>
+            <h3>Çok Kolay</h3>
+            <p>Düşmanlar yavaş, daha az hasarlı ve kötü nişancıdır. Rahat deneme modu.</p>
+            <div class="difficulty-stats">
+              <span>Hız: Çok düşük</span>
+              <span>Hasar: Çok düşük</span>
+              <span>Nişan: Zayıf</span>
+            </div>
+            <button>Çok Kolay Başlat</button>
+          </div>
+
+          <div class="difficulty-card easy" data-difficulty="easy">
+            <div class="difficulty-rank">02</div>
+            <h3>Kolay</h3>
+            <p>Düşmanlar hâlâ rahat seviyededir ama biraz daha düzenli saldırırlar.</p>
+            <div class="difficulty-stats">
+              <span>Hız: Düşük</span>
+              <span>Hasar: Düşük</span>
+              <span>Nişan: Orta altı</span>
+            </div>
+            <button>Kolay Başlat</button>
+          </div>
+
+          <div class="difficulty-card normal" data-difficulty="normal">
+            <div class="difficulty-rank">03</div>
+            <h3>Orta</h3>
+            <p>Dengeli ve standart oyun deneyimi. Ne çok kolay ne de fazla acımasız.</p>
+            <div class="difficulty-stats">
+              <span>Hız: Dengeli</span>
+              <span>Hasar: Dengeli</span>
+              <span>Nişan: Dengeli</span>
+            </div>
+            <button>Orta Başlat</button>
+          </div>
+
+          <div class="difficulty-card hard" data-difficulty="hard">
+            <div class="difficulty-rank">04</div>
+            <h3>Zor</h3>
+            <p>Düşmanlar daha hızlı, daha isabetli ve daha agresif saldırır.</p>
+            <div class="difficulty-stats">
+              <span>Hız: Yüksek</span>
+              <span>Hasar: Yüksek</span>
+              <span>Nişan: İyi</span>
+            </div>
+            <button>Zor Başlat</button>
+          </div>
+
+          <div class="difficulty-card nightmare" data-difficulty="nightmare">
+            <div class="difficulty-rank">05</div>
+            <h3>Çok Zor</h3>
+            <p>En sert yapay zeka. Hızlı, güçlü, agresif ve daha isabetli düşmanlar.</p>
+            <div class="difficulty-stats">
+              <span>Hız: Çok yüksek</span>
+              <span>Hasar: Çok yüksek</span>
+              <span>Nişan: Çok iyi</span>
+            </div>
+            <button>Çok Zor Başlat</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="screen">
+      <div class="how-card glass">
+        <div class="badge">REHBER</div>
+        <h2>Nasıl Oynanır?</h2>
+
+        <div class="how-grid">
+          <div>
+            <h3>Tek Oyuncu</h3>
+            <p>1. oyuncu <b>WASD</b> ile hareket eder, <b>Space</b> ile ateş eder.</p>
+          </div>
+
+          <div>
+            <h3>İki Oyuncu</h3>
+            <p>1. oyuncu <b>WASD + Space</b>, 2. oyuncu <b>Ok tuşları + Shift</b> kullanır.</p>
+          </div>
+
+          <div>
+            <h3>Namlunun Dönüşü</h3>
+            <p>Mouse yok. Tankın namlusu hangi yöne hareket ediyorsan otomatik o yöne döner.</p>
+          </div>
+
+          <div>
+            <h3>Zorluk</h3>
+            <p>Oyuna başlamadan önce yapay zeka seviyesini seçebilirsin.</p>
+          </div>
+
+          <div>
+            <h3>Boss</h3>
+            <p>Boss artık <b>5. dalgada</b> gelir. Sonra 10, 15, 20 diye devam eder.</p>
+          </div>
+
+          <div>
+            <h3>Geliştirme</h3>
+            <p>Seviye atladıkça hasar, can, hız ve ateş gücü geliştirmeleri seçersin.</p>
+          </div>
+        </div>
+
+        <button id="howBackBtn" class="btn primary">Geri Dön</button>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen">
+      <div class="hud glass">
+        <div class="hud-left">
+          <div class="hud-box wide">
+            <span>Takım</span>
+            <b id="tankName">-</b>
+          </div>
+
+          <div class="hud-box hpbox">
+            <span>1. Oyuncu Can</span>
+            <div class="hp-bar"><i id="hpFill"></i></div>
+          </div>
+
+          <div id="p2Hud" class="hud-box hpbox">
+            <span>2. Oyuncu Can</span>
+            <div class="hp-bar"><i id="hpFill2"></i></div>
+          </div>
+
+          <div class="hud-box"><span>Dalga</span><b id="waveText">1</b></div>
+          <div class="hud-box"><span>Seviye</span><b id="levelText">1</b></div>
+          <div class="hud-box"><span>Skor</span><b id="scoreText">0</b></div>
+          <div class="hud-box"><span>Düşman</span><b id="enemyText">0</b></div>
+          <div class="hud-box wide"><span>Zorluk</span><b id="difficultyText">Orta</b></div>
+        </div>
+
+        <div class="hud-right">
+          <button id="pauseBtn" class="btn secondary small">Duraklat</button>
+          <button id="restartBtn" class="btn secondary small">Yeniden</button>
+          <button id="toMenuBtn" class="btn secondary small">Menü</button>
+        </div>
+      </div>
+
+      <div class="canvas-frame glass">
+        <canvas id="game" width="1500" height="850"></canvas>
+
+        <div id="overlay" class="overlay">
+          <div class="overlay-card glass">
+            <h2 id="overlayTitle">Duraklatıldı</h2>
+            <p id="overlayText">Oyuna devam edebilirsin.</p>
+            <div id="upgradeList" class="upgrade-list"></div>
+
+            <div class="overlay-actions">
+              <button id="overlayMainBtn" class="btn primary">Devam</button>
+              <button id="overlayMenuBtn" class="btn secondary">Ana Menü</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        1. Oyuncu: WASD hareket • Space ateş |
+        2. Oyuncu: Ok tuşları hareket • Shift ateş |
+        Boss: 5. dalga |
+        P duraklat
+      </div>
+    </section>
+
+  </div>
+
+  <div id="nameModal" class="name-modal">
+    <div class="name-card">
+      <div class="badge">OYUNCU ADI</div>
+      <h2>Skor tablosuna adını yaz</h2>
+      <p>Oyun bitince skorun bu isimle ana menüde gözükecek.</p>
+
+      <div class="name-input-group">
+        <label for="playerOneNameInput">1. Oyuncu adı</label>
+        <input id="playerOneNameInput" maxlength="18" placeholder="Oyuncu 1" autocomplete="off" />
+      </div>
+
+      <div id="playerTwoNameGroup" class="name-input-group">
+        <label for="playerTwoNameInput">2. Oyuncu adı</label>
+        <input id="playerTwoNameInput" maxlength="18" placeholder="Oyuncu 2" autocomplete="off" />
+      </div>
+
+      <div class="name-actions">
+        <button id="nameCancelBtn" class="btn secondary">Geri</button>
+        <button id="nameStartBtn" class="btn primary">Oyunu Başlat</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script src="leaderboard.js"></script>
+</body>
+</html>
