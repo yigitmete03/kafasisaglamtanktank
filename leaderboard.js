@@ -8,6 +8,7 @@
     p2: "Oyuncu 2"
   };
 
+  let selectedMode = "one";
   let lastSavedSignature = "";
 
   const modal = document.getElementById("nameModal");
@@ -26,7 +27,9 @@
 
   function cleanName(value, fallback) {
     const name = String(value || "").trim();
+
     if (!name) return fallback;
+
     return name.slice(0, 18);
   }
 
@@ -51,20 +54,42 @@
       .replaceAll("'", "&#039;");
   }
 
+  function wrapModeButtons() {
+    const one = document.getElementById("onePlayerBtn");
+    const two = document.getElementById("twoPlayerBtn");
+
+    if (one) {
+      const oldOne = one.onclick;
+
+      one.onclick = function (e) {
+        selectedMode = "one";
+
+        if (typeof oldOne === "function") {
+          oldOne.call(this, e);
+        }
+      };
+    }
+
+    if (two) {
+      const oldTwo = two.onclick;
+
+      two.onclick = function (e) {
+        selectedMode = "two";
+
+        if (typeof oldTwo === "function") {
+          oldTwo.call(this, e);
+        }
+      };
+    }
+  }
+
   function isTwoPlayerModeBeforeGame() {
-    const title = document.getElementById("selectTitle");
-    const titleText = title ? title.textContent : "";
-
-    if (titleText.includes("2.")) return true;
-
-    const cards = document.querySelectorAll(".tank-card");
-    if (cards.length && titleText.includes("2")) return true;
-
-    return false;
+    return selectedMode === "two";
   }
 
   function isTwoPlayerModeInGame() {
     const p2Hud = document.getElementById("p2Hud");
+
     return p2Hud && !p2Hud.classList.contains("hidden");
   }
 
@@ -82,14 +107,17 @@
 
   function getTextNumber(id, fallback = 0) {
     const el = document.getElementById(id);
+
     if (!el) return fallback;
 
     const n = Number(String(el.textContent || "").trim());
+
     return Number.isFinite(n) ? n : fallback;
   }
 
   function getDifficultyLabel() {
     const el = document.getElementById("difficultyText");
+
     return el ? String(el.textContent || "Orta").trim() : "Orta";
   }
 
@@ -125,15 +153,16 @@
     }
 
     const card = pendingDifficultyCard;
+
     closeNameModal();
 
     const difficultyKey = card.dataset.difficulty;
 
-    if (typeof selectDifficulty === "function") {
-      selectDifficulty(difficultyKey);
+    if (typeof window.selectDifficulty === "function") {
+      window.selectDifficulty(difficultyKey);
     } else {
       console.error("selectDifficulty fonksiyonu bulunamadı. game.js yüklenmemiş olabilir.");
-      alert("Oyun başlatılamadı. game.js dosyasında hata var. F12 > Console ekranını at.");
+      alert("Oyun başlatılamadı. F12 > Console ekranını kontrol et.");
     }
   }
 
@@ -192,6 +221,7 @@
     board.sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
       if (b.wave !== a.wave) return b.wave - a.wave;
+
       return b.level - a.level;
     });
 
@@ -201,6 +231,7 @@
 
   function watchGameOver() {
     const overlayTitle = document.getElementById("overlayTitle");
+
     if (!overlayTitle) return;
 
     const observer = new MutationObserver(() => {
@@ -235,16 +266,21 @@
     cancelBtn.addEventListener("click", closeNameModal);
 
     p1Input.addEventListener("keydown", e => {
-      if (e.key === "Enter") startGameAfterName();
+      if (e.key === "Enter") {
+        startGameAfterName();
+      }
     });
 
     p2Input.addEventListener("keydown", e => {
-      if (e.key === "Enter") startGameAfterName();
+      if (e.key === "Enter") {
+        startGameAfterName();
+      }
     });
 
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
         const ok = confirm("Skor tablosunu temizlemek istiyor musun?");
+
         if (!ok) return;
 
         localStorage.removeItem(STORAGE_KEY);
@@ -254,6 +290,7 @@
   }
 
   function init() {
+    wrapModeButtons();
     replaceDifficultyClicks();
     bindButtons();
     renderLeaderboard();
